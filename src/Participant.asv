@@ -37,16 +37,12 @@ classdef Participant
         %             [obj.dom_data.rmse, obj.non_dom_data.rmse] = compute_performance_metrics(obj);
         %         end
         function obj = Participant(label, condition, kdf_list)
-            fprintf("Creating new participant: %s\n", label);
+            fprintf("Creating new participant: ");
             obj.label_str = label;
             obj.condition_str = condition;
-            fprintf("\tAdding machine learning task\n");
             obj.machine_experiment = Experiment("Machine Learning", kdf_list.machine_ctrl, kdf_list.machine_exp, true);
-            fprintf("\tAdding mutual learning task\n");
             obj.mutual_experiment = Experiment("Mutual Learning", kdf_list.mutual_ctrl, kdf_list.mutual_exp, false);
-            fprintf("\tAdding human learning task\n");
             obj.human_experiment = Experiment("Human Learning", kdf_list.human_ctrl, kdf_list.human_exp, false);
-            fprintf("Done\n");
 
         end
 
