@@ -1,4 +1,7 @@
 function tlo = barplot_rmse_norm(control_rmse_int, experiment_rmse_int, title_str, norm_method)
+dof_1_label = "Power Grasp";
+dof_2_label = "Tripod Grasp";
+
 trial_idxs = 1:length(control_rmse_int);
 target_vals = repelem([0.5;0.3;0.7;0.1;0.9;0.4;0.6;0.2;0.8], 2);
 target_size = 0.05;
@@ -8,7 +11,7 @@ if norm_method == 1
 elseif norm_method == 2
     norm_vals = [target_vals, ones(size(target_vals))];
 elseif norm_method == 3
-    norm_vals = [log2(target_vals/0.05+1), ones(size(target_vals))];
+    norm_vals = [log2(target_vals/target_size+1), ones(size(target_vals))];
 else
     error("Input valid normalization")
 end
@@ -51,15 +54,15 @@ h12 = plot(group_id(2), bar_data(2),'o--', Color=my_colors(2,:), LineWidth=2);
 h21 = plot(group_id(3), bar_data(3),'d:', Color=my_colors(3,:), LineWidth=2);
 h22 = plot(group_id(4), bar_data(4),'o:', Color=my_colors(4,:), LineWidth=2);
 hold off
-legend([h11 h12, h21, h22], {'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
+legend([h11 h12, h21, h22], {strcat("Intended: ", dof_1_label), strcat("Intended: ", dof_2_label), strcat("Unintended: ", dof_1_label), strcat("Unintended: ", dof_2_label)});
 
 xticks([1:4])
-xticklabels({'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
+xticklabels({[]});
 ylim([-0.1 0.1])
 ytickformat('%,0.2f')
 grid on
 box off
-title('RMSE Slopes: Control Data')
+title('Control Data: RMSE Slopes')
 
 
 nexttile
@@ -96,16 +99,16 @@ h12 = plot(group_id(2), bar_data(2),'o--', Color=my_colors(2,:), LineWidth=2);
 h21 = plot(group_id(3), bar_data(3),'d:', Color=my_colors(3,:), LineWidth=2);
 h22 = plot(group_id(4), bar_data(4),'o:', Color=my_colors(4,:), LineWidth=2);
 hold off
-legend([h11 h12, h21, h22], {'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
+legend([h11 h12, h21, h22], {strcat("Intended: ", dof_1_label), strcat("Intended: ", dof_2_label), strcat("Unintended: ", dof_1_label), strcat("Unintended: ", dof_2_label)});
 
 xticks([1:4])
-xticklabels({'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
-% yticks([0:0.05:1])
+xticklabels({[]});
+% yticks([0:target_size:1])
 ylim([-0.1 0.1])
 ytickformat('%,0.2f')
 grid on
 box off
-title('RMSE Slopes: Experimental Data')
+title('Experimental Data: RMSE Slopes')
 
 title(tlo, title_str)
 end

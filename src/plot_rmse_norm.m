@@ -1,4 +1,7 @@
 function tlo = plot_rmse_norm(control_rmse_int, experiment_rmse_int, title_str, norm_method)
+dof_1_label = "Power Grasp";
+dof_2_label = "Tripod Grasp";
+
 trial_idxs = 1:length(control_rmse_int);
 target_vals = repelem([0.5;0.3;0.7;0.1;0.9;0.4;0.6;0.2;0.8], 2);
 target_size = 0.05;
@@ -8,9 +11,9 @@ if norm_method == 1
 elseif norm_method == 2
     norm_vals = [target_vals, ones(size(target_vals))];
 elseif norm_method == 3
-    norm_vals = [log2(target_vals/0.05+1), ones(size(target_vals))];
+    norm_vals = [log2(target_vals/target_size+1), ones(size(target_vals))];
 else
-    error("Input valid normalization")
+    error("Invalid normalization option")
 end
 control_rmse_int = control_rmse_int./norm_vals;
 experiment_rmse_int = experiment_rmse_int./norm_vals;
@@ -26,16 +29,17 @@ h21 = plot(trial_idxs(2:2:end), control_rmse_int(2:2:end,2), 'd:', LineWidth=1.5
 h22 = plot(trial_idxs(1:2:end), control_rmse_int(1:2:end,2), 'o:', LineWidth=1.5);
 
 hold off
-yline(0.05, ':', LineWidth=1.5)
+yline(target_size, ':', LineWidth=1.5)
 xticks([1:20])
 xlim([1 inf])
-yticks([0:0.05:1])
+yticks([0:target_size:1])
 ylim([0 1])
 ytickformat('%,0.2f')
 grid on
 box off
-title('RMSE Vs. Trials: Control Data')
-legend({'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
+title('Control Data: RMSE Vs. Trials')
+legend({strcat("Intended: ", dof_1_label), strcat("Intended: ", dof_2_label), strcat("Unintended: ", dof_1_label), strcat("Unintended: ", dof_2_label)})
+% legend({'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
 nexttile
 % plot(experiment_rmse_int, ':', LineWidth=1.5)
 hold on
@@ -45,16 +49,17 @@ h21 = plot(trial_idxs(2:2:end), experiment_rmse_int(2:2:end,2), 'd:', LineWidth=
 h22 = plot(trial_idxs(1:2:end), experiment_rmse_int(1:2:end,2), 'o:', LineWidth=1.5);
 
 hold off
-yline(0.05, ':', LineWidth=1.5)
+yline(target_size, ':', LineWidth=1.5)
 xticks([1:20])
 xlim([1 inf])
-yticks([0:0.05:1])
+yticks([0:target_size:1])
 ylim([0 1])
 ytickformat('%,0.2f')
 grid on
 box off
-title('RMSE Vs. Trials: Experimental Data')
-legend({'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
+title('Experimental Data: RMSE Vs. Trials')
+legend({strcat("Intended: ", dof_1_label), strcat("Intended: ", dof_2_label), strcat("Unintended: ", dof_1_label), strcat("Unintended: ", dof_2_label)})
+% legend({'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
 
 title(tlo, title_str)
 end

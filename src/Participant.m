@@ -41,11 +41,11 @@ classdef Participant
             obj.label_str = label;
             obj.condition_str = condition;
             fprintf("\tAdding machine learning task\n");
-            obj.machine_experiment = Experiment("Machine Learning", kdf_list.machine_ctrl, kdf_list.machine_exp, true);
+            obj.machine_experiment = Experiment("Machine Learning", kdf_list.machine_ctrl, kdf_list.machine_expl, true);
             fprintf("\tAdding mutual learning task\n");
-            obj.mutual_experiment = Experiment("Mutual Learning", kdf_list.mutual_ctrl, kdf_list.mutual_exp, false);
+            obj.mutual_experiment = Experiment("Mutual Learning", kdf_list.mutual_ctrl, kdf_list.mutual_expl, false);
             fprintf("\tAdding human learning task\n");
-            obj.human_experiment = Experiment("Human Learning", kdf_list.human_ctrl, kdf_list.human_exp, false);
+            obj.human_experiment = Experiment("Human Learning", kdf_list.human_ctrl, kdf_list.human_expl, false);
             fprintf("Done\n");
 
         end

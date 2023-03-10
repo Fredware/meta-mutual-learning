@@ -8,9 +8,9 @@ if norm_method == 1
 elseif norm_method == 2
     norm_vals = [target_vals, ones(size(target_vals))];
 elseif norm_method == 3
-    norm_vals = [log2(target_vals/0.05+1), ones(size(target_vals))];
+    norm_vals = [log2(target_vals/target_size+1), ones(size(target_vals))];
 else
-    error("Input valid normalization")
+    error("Invalid normalization option")
 end
 control_rmse_int = control_rmse_int./norm_vals;
 experiment_rmse_int = experiment_rmse_int./norm_vals;
@@ -20,36 +20,43 @@ tlo = tiledlayout(1,2);
 nexttile
 % plot(trial_idxs, control_rmse_int, ':', LineWidth=1.5)
 hold on
-h11 = plot(trial_idxs(1:2:end), control_rmse_int(1:2:end,1), 'x--', LineWidth=1.5);
+h11 = plot(trial_idxs(1:2:end), control_rmse_int(1:2:end,1), 'd--', LineWidth=1.5);
 h12 = plot(trial_idxs(2:2:end), control_rmse_int(2:2:end,1), 'o--', LineWidth=1.5);
-h21 = plot(trial_idxs(1:2:end), control_rmse_int(1:2:end,2), 'x:', LineWidth=1.5);
-h22 = plot(trial_idxs(2:2:end), control_rmse_int(2:2:end,2), 'o:', LineWidth=1.5);
+h21 = plot(trial_idxs(2:2:end), control_rmse_int(2:2:end,2), 'd:', LineWidth=1.5);
+h22 = plot(trial_idxs(1:2:end), control_rmse_int(1:2:end,2), 'o:', LineWidth=1.5);
+
 hold off
-yline(0.05, ':', LineWidth=1.5)
+yline(target_size, ':', LineWidth=1.5)
 xticks([1:20])
-yticks([0:0.05:1])
+xlim([1 inf])
+yticks([0:target_size:1])
 ylim([0 1])
 ytickformat('%,0.2f')
 grid on
 box off
-title('RMSE Vs. Trials: Control')
-legend([h11, h21],{'Intended Movement','Unintended Movement'});
+title('RMSE Vs. Trials: Control Data')
+legend({strcat("Intended: ", dof_1_label), strcat("Intended: ", dof_2_label), strcat("Unintended: ", dof_1_label), strcat("Unintended: ", dof_2_label)})
+% legend({'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
 nexttile
 % plot(experiment_rmse_int, ':', LineWidth=1.5)
 hold on
-h11 = plot(trial_idxs(1:2:end), experiment_rmse_int(1:2:end,1), 'x:', LineWidth=1.5, Color="#0072BD");
-h12 = plot(trial_idxs(2:2:end), experiment_rmse_int(2:2:end,1), 'o:', LineWidth=1.5, Color="#0072BD");
-h21 = plot(trial_idxs(1:2:end), experiment_rmse_int(1:2:end,2), 'rx:', LineWidth=1.5);
-h22 = plot(trial_idxs(2:2:end), experiment_rmse_int(2:2:end,2), 'ro:', LineWidth=1.5);
+h11 = plot(trial_idxs(1:2:end), experiment_rmse_int(1:2:end,1), 'd--', LineWidth=1.5);
+h12 = plot(trial_idxs(2:2:end), experiment_rmse_int(2:2:end,1), 'o--', LineWidth=1.5);
+h21 = plot(trial_idxs(2:2:end), experiment_rmse_int(2:2:end,2), 'd:', LineWidth=1.5);
+h22 = plot(trial_idxs(1:2:end), experiment_rmse_int(1:2:end,2), 'o:', LineWidth=1.5);
+
 hold off
-yline(0.05, ':', LineWidth=1.5)
+yline(target_size, ':', LineWidth=1.5)
 xticks([1:20])
-yticks([0:0.05:1])
+xlim([1 inf])
+yticks([0:target_size:1])
 ylim([0 1])
 ytickformat('%,0.2f')
 grid on
 box off
-title('RMSE Vs. Trials: Experimental')
-legend([h11, h21], "Intended Movement","Unintended Movement")
+title('RMSE Vs. Trials: Experimental Data')
+legend({strcat("Intended: ", dof_1_label), strcat("Intended: ", dof_2_label), strcat("Unintended: ", dof_1_label), strcat("Unintended: ", dof_2_label)})
+% legend({'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
+
 title(tlo, title_str)
 end
