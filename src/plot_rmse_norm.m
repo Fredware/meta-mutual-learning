@@ -4,7 +4,8 @@ dof_2_label = "Tripod Grasp";
 
 trial_idxs = 1:length(control_rmse_int);
 target_vals = repelem([0.5;0.3;0.7;0.1;0.9;0.4;0.6;0.2;0.8], 2);
-target_size = 0.05;
+target_size = 0.10;
+max_rmse = 0.50;
 
 if norm_method == 1
     norm_vals = [ones(size(target_vals)), ones(size(target_vals))];
@@ -18,7 +19,7 @@ end
 control_rmse_int = control_rmse_int./norm_vals;
 experiment_rmse_int = experiment_rmse_int./norm_vals;
 
-figure('Units','centimeters','Position',[0, 0, 75, 25])
+% figure('Units','centimeters','Position',[0, 0, 75, 25])
 tlo = tiledlayout(1,2);
 nexttile
 % plot(trial_idxs, control_rmse_int, ':', LineWidth=1.5)
@@ -29,7 +30,7 @@ h21 = plot(trial_idxs(2:2:end), control_rmse_int(2:2:end,2), 'd:', LineWidth=1.5
 h22 = plot(trial_idxs(1:2:end), control_rmse_int(1:2:end,2), 'o:', LineWidth=1.5);
 
 hold off
-yline(target_size, ':', LineWidth=1.5)
+yline([target_size, max_rmse], '-.', LineWidth=1.5)
 xticks([1:20])
 xlim([1 inf])
 yticks([0:target_size:1])
@@ -37,7 +38,7 @@ ylim([0 1])
 ytickformat('%,0.2f')
 grid on
 box off
-title('Control Data: RMSE Vs. Trials')
+title('Non-Paretic Data: RMSE Vs. Trials')
 legend({strcat("Intended: ", dof_1_label), strcat("Intended: ", dof_2_label), strcat("Unintended: ", dof_1_label), strcat("Unintended: ", dof_2_label)})
 % legend({'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
 nexttile
@@ -49,7 +50,7 @@ h21 = plot(trial_idxs(2:2:end), experiment_rmse_int(2:2:end,2), 'd:', LineWidth=
 h22 = plot(trial_idxs(1:2:end), experiment_rmse_int(1:2:end,2), 'o:', LineWidth=1.5);
 
 hold off
-yline(target_size, ':', LineWidth=1.5)
+yline([target_size, max_rmse], '-.', LineWidth=1.5)
 xticks([1:20])
 xlim([1 inf])
 yticks([0:target_size:1])
@@ -57,7 +58,7 @@ ylim([0 1])
 ytickformat('%,0.2f')
 grid on
 box off
-title('Experimental Data: RMSE Vs. Trials')
+title('Paretic Data: RMSE Vs. Trials')
 legend({strcat("Intended: ", dof_1_label), strcat("Intended: ", dof_2_label), strcat("Unintended: ", dof_1_label), strcat("Unintended: ", dof_2_label)})
 % legend({'Intended Movement: Fingers', 'Intended Movement: Wrist', 'Unintended Movement: Fingers', 'Unintended Movement: Wrist'});
 

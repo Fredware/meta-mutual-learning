@@ -4,7 +4,7 @@ dof_2_label = "Tripod Grasp";
 
 trial_idxs = 1:length(control_rmse_int);
 target_vals = repelem([0.5;0.3;0.7;0.1;0.9;0.4;0.6;0.2;0.8], 2);
-target_size = 0.05;
+target_size = 0.10;
 
 if norm_method == 1
     norm_vals = [ones(size(target_vals)), ones(size(target_vals))];
@@ -18,7 +18,7 @@ end
 control_rmse_int = control_rmse_int./norm_vals;
 experiment_rmse_int = experiment_rmse_int./norm_vals;
 
-figure('Units','centimeters','Position',[0, 0, 75, 25])
+% figure('Units','centimeters','Position',[0, 0, 75, 25])
 tlo = tiledlayout(1,2);
 nexttile
 
