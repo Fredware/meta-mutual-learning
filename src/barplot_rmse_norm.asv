@@ -20,7 +20,7 @@ experiment_rmse_int = experiment_rmse_int./norm_vals;
 
 % figure('Units','centimeters','Position',[0, 0, 75, 25])
 tlo = tiledlayout(1,2);
-ax_ctrl = nexttile;
+nexttile
 
 intended_fingers_x = trial_idxs(1:2:end);
 intended_fingers_y = control_rmse_int(1:2:end,1);
@@ -69,7 +69,7 @@ box off
 title('Control Data: RMSE Slopes')
 
 
-ax_expl = nexttile;
+nexttile
 
 intended_fingers_x = trial_idxs(1:2:end);
 intended_fingers_y = experiment_rmse_int(1:2:end,1);
@@ -86,9 +86,9 @@ model_fit = fit(intended_fingers_x', intended_fingers_y, MODEL_TYPE, 'StartPoint
 bar_data = [bar_data; model_fit.b];
 model_fit = fit(intended_wrist_x', intended_wrist_y, MODEL_TYPE, 'StartPoint', MODEL_SEED);
 bar_data = [bar_data; model_fit.b];
-model_fit = fit(unintended_fingers_x', unintended_fingers_y, MODEL_TYPE, 'StartPoint', MODEL_SEED);
+model_fit = fit(unintended_fingers_x', unintended_fingers_y, MODEL_TYPE);
 bar_data = [bar_data; model_fit.b];
-model_fit = fit(unintended_wrist_x', unintended_wrist_y, MODEL_TYPE, 'StartPoint', MODEL_SEED);
+model_fit = fit(unintended_wrist_x', unintended_wrist_y, MODEL_TYPE);
 bar_data = [bar_data; model_fit.b];
 
 group_id = 1:4;
@@ -115,6 +115,5 @@ grid on
 box off
 title('Experimental Data: RMSE Slopes')
 
-linkaxes([ax_ctrl, ax_expl], 'y')
 title(tlo, title_str)
 end
