@@ -21,7 +21,7 @@ classdef TrainingTask
             kef_file = string(kef_file);
             events = readlines(kef_file);
 
-            for i=2:2:length(events)-1
+            for i=2:3:length(events)-1
                 nip_stop = max(sscanf(events(i), "SS.TargOnTS=%d;SS.TrialTS=%d"));
                 nip_window = temp_data_tbl.NIP<nip_stop;
                 train_tbl = temp_data_tbl(nip_window, :);
@@ -38,10 +38,11 @@ classdef TrainingTask
                 end
             end
             obj.data_tbl = addvars(obj.data_tbl, temp_data_tbl.Kinematics, 'NewVariableNames', 'Kinematics');
+            %%%%%%%%%%%%%%%%%%%%%%%%%%% Dead code. Remove if sytem works
+%             performance_values = compute_rmse(obj.data_tbl.Targets, obj.data_tbl.Kalman_10)';
+%             benchmark_values = ones(size(performance_values))*0.05;
+%             obj.performance_metrics = PerformanceMetric("RMSE", performance_values, benchmark_values);
             %%%%%%%%%%%%%%%%%%%%%%%%%%%
-            performance_values = compute_rmse(obj.data_tbl.Targets, obj.data_tbl.Kalman_10)';
-            benchmark_values = ones(size(performance_values))*0.05;
-            obj.performance_metrics = PerformanceMetric("RMSE", performance_values, benchmark_values);
         end
         function task_str = to_string(obj)
             %METHOD1 Summary of this method goes here
